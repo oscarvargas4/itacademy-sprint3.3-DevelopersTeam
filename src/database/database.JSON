@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "tasks": ["Work with the project", "Start a business"]
+    },
+    { "username": "oscar1", "tasks": [] }
+  ]
+}
