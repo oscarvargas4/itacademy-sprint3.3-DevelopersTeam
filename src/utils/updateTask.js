@@ -34,4 +34,3 @@ const updateTask = async (username, taskSearch, update) => {
 module.exports = {
   updateTask,
 };
-updateTask("oscar1", "test", "r13131");

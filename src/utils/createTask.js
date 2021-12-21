@@ -27,4 +27,3 @@ module.exports = {
   createTask,
 };
 
-createTask("oscar1", "test");
