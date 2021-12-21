@@ -1,9 +1,27 @@
 const term = require("terminal-kit").terminal; // https://www.npmjs.com/package/terminal-kit
 const { checkDB } = require("./utils/checkDB");
-const { userCheck } = require("./utils/userCheck");
+const { userCheck } = require("./controllers/user/userCheck");
+const { userIdentify } = require("./controllers/console/userIdentify");
+const { menu } = require("./controllers/console/menu");
 
-// Check if Database Exists
-// checkDB()
+
+
+const main = async () => {
+  try {
+    // Check if Database Exists
+    await checkDB();
+    // const user = await userIdentify(); --> el objeto con el username definido
+    userIdentify();
+    // ! Verificar userCheck
+    // menu(user); // --> modificar el objeto user y lo actualiza en la base de datos
+  } catch (error) {
+
+  }
+
+}
+
+main();
+
 
 // Username Input
 // term.black.bgGreen("Hello User\n");
@@ -16,31 +34,6 @@ const { userCheck } = require("./utils/userCheck");
 //   });
 // });
 
-// Menu: crear tasca, actualitzar tasca, esborrar tasca, llistar totes les tasques o llistar una tasca específica
 
-term.green("Select one option from the menu: \n");
-const items = [
-  "1. Create Task", // createTask() --> Alejandro
-  "2. Update Task", // updateTask() --> Alejandro
-  "3. Delete Task", // deleteTask()
-  "4. See all Tasks", // seeAllTasks()
-  "5. See specific Task", // seeOneTask()
-  "6. Exit"
-];
-
-// // Callback
-// term.singleColumnMenu(items, (error, response) => {
-//   term("\n").eraseLineAfter.red(
-//     "#%s selected: %s (%s, %s) \n",
-//     response.selectedIndex,
-//     response.selectedText,
-//     response.x,
-//     response.y
-//   );
-
-//   console.log(response);
-
-//   process.exit();
-// });
 
 

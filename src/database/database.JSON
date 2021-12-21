@@ -1,9 +1,1 @@
-{
-  "users": [
-    {
-      "username": "admin",
-      "tasks": ["Work with the project", "Start a business"]
-    },
-    { "username": "oscar", "tasks": [] }
-  ]
-}
+{"users":[{"username":"admin","tasks":[{"description":"","createdAt":1640082865244,"updateAt":1640082865244}]},{"username":"oscar","tasks":[]}]}
