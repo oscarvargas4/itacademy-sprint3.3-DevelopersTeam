@@ -35,6 +35,8 @@ const menu = async (username) => {
         });
         break;
       case 2:
+        
+        // Option 1:
         term.black.bgGreen(
           "Please enter the Task description that you want to update:\n"
         );
@@ -50,6 +52,9 @@ const menu = async (username) => {
               .catch((error) => console.log(error));
           });
         });
+
+        // Option 2:
+        
         break;
       case 3:
         console.log("Option3");
