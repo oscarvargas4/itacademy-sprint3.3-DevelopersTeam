@@ -2,7 +2,7 @@ const { writeFile, readFile, unlink } = require("fs/promises");
 
 const updateTask = async (username, id, update) => {
   try {
-    var indexArray = null;
+    const indexArray = null;
     let data = JSON.parse(await readFile("./src/database/database.JSON", "utf8"));
     let userIndex = data.users.findIndex((user, index) => {
       if (user.username == username) {
