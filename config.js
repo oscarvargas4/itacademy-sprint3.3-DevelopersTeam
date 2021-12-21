@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { PORT } = process.env;
-const MONGODB_URI = process.env.MONGODB_URI;
+const { MONGODB_URI } = process.env;
 
 const mysqlConfig = {
   port: process.env.MYSQL_PORT,
@@ -10,7 +10,7 @@ const mysqlConfig = {
   password: process.env.MYSQL_PASSWORD,
 };
 
-//TODO Borrar o implementar: para elegir la base de datos con variables de entorno. Esto es codigo copiado de otro lado, asi que si lo leen y no encuentran sentido, esta bien, pero es la forma mas o menos 
+// TODO Borrar o implementar: para elegir la base de datos con variables de entorno. Esto es codigo copiado de otro lado, asi que si lo leen y no encuentran sentido, esta bien, pero es la forma mas o menos
 // let dbByEnv;
 // let controllersByEnv;
 
@@ -26,6 +26,6 @@ module.exports = {
   MONGODB_URI,
   PORT,
   mysqlConfig,
-  //dbByEnv,
- // controllersByEnv,
+  // dbByEnv,
+  // controllersByEnv,
 };
