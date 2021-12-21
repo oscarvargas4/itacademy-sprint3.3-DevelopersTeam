@@ -11,7 +11,7 @@ const main = async () => {
     // Check if User Exists, if not, create a new one
     userIdentify();
   } catch (error) {
-
+    console.log(error);
   }
 
 }

@@ -10,11 +10,12 @@ const userIdentify = async () => {
     term.red(`\nYour name is: ${input}\n`);
     userCheck(input).then(() => {
       menu(input.toLocaleLowerCase());
-      // ! Intentar ejecutar el menu aqui --> Antes del process.exit()
     });
+    if (error) {
+      throw new Error(error);
+    }
   });
   
-  // });
 };
 
 
