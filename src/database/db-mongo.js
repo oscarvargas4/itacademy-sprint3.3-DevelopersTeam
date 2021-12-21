@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../../config');
 
+
 const connectMongo = () => {
   const mongoDb = config.MONGODB_URI;
   mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
@@ -10,5 +11,3 @@ const connectMongo = () => {
 };
 module.exports = { connectMongo };
 
-
-connectMongo ()
