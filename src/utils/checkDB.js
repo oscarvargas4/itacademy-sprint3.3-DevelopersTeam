@@ -1,5 +1,5 @@
 const { readFile, writeFile } = require("fs/promises");
-const dataTemplate = require("./databaseTemplate");
+const dataTemplate = require("../database/databaseTemplate");
 
 
 // Check if Database Exists

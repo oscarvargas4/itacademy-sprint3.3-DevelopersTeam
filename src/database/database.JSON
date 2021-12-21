@@ -4,9 +4,6 @@
       "username": "admin",
       "tasks": ["Work with the project", "Start a business"]
     },
-    {
-      "username": "oscar",
-      "tasks": []
-    }
+    { "username": "oscar", "tasks": [] }
   ]
 }
