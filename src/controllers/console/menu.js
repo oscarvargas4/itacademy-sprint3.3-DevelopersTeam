@@ -2,6 +2,7 @@ const term = require("terminal-kit").terminal;
 const { createTask } = require("../task/createTask");
 const { updateTask } = require("../task/updateTask");
 const { seeAllTasks } = require("../task/seeAllTasks");
+const { seeSpecificTask } = require("../task/seeSpecificTask");
 
 // Menu: crear tasca, actualitzar tasca, esborrar tasca, llistar totes les tasques o llistar una tasca específica
 
@@ -66,7 +67,7 @@ const menu = async (username) => {
         });        
         break;
       case 5:
-        console.log("Option5");
+        seeSpecificTask(username);
         break;
       case 6:
         console.log("Good Bye!");
