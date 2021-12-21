@@ -46,8 +46,8 @@ const menu = async (username) => {
         console.log("Option5");
         break;
       case 6:
-        console.log("Option6");
-        break;
+        console.log("Good Bye!");
+        process.exit();
     }
   });
 };
