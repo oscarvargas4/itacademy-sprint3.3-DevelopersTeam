@@ -14,7 +14,9 @@ const seeAllTasks = async (username) => {
     if (userIndex == -1) throw new Error("User not found");
 
     let tasks = await data.users[userIndex].tasks;
-    console.log(tasks);
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(`Task #${i+1}: ${tasks[i].description}`);
+    }
   } catch (error) {
     console.log(error);
   }
