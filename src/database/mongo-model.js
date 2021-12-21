@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   tasks: [{
     taskName: String,
     start_date: { type: Date, default: Date.now, required: true },
-    due_date: { type: Date, required: true },
+    end_date: { type: Date, required: true },
   }],
 
 });
