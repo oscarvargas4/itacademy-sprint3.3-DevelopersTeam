@@ -3,13 +3,6 @@ const { writeFile, readFile, unlink } = require("fs/promises");
 // Create File
 const userCheck = async (input) => {
   try {
-    // let user = {
-    //   username: input,
-    //   tasks: []
-    // };
-
-    // let data = JSON.stringify(user);
-    // await writeFile("src/database/database.JSON", data);
 
     let data = await readFile("src/database/database.JSON", "utf8");
     data = JSON.parse(data);
@@ -40,7 +33,7 @@ const userCheck = async (input) => {
   }
 };
 
-userCheck("oscar1")
+// userCheck("oscar")
 
 // ? Read File - Read File is not necessary 
 // readFile("src/database/database.JSON", "utf8").then((data) => {
