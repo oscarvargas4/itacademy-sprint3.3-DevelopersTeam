@@ -9,8 +9,7 @@ const userIdentify = async () => {
   term.inputField((error, input) => {
     term.red(`\nYour name is: ${input}\n`);
     userCheck(input).then(() => {
-      // process.exit();
-      menu();
+      menu(input.toLocaleLowerCase());
       // ! Intentar ejecutar el menu aqui --> Antes del process.exit()
     });
   });

@@ -5,8 +5,8 @@ let dataTemplate = {
             tasks: [
                 {
                     description: "",
-                    createdAt: Date.now(),
-                    updateAt: Date.now()
+                    createdAt: new Date(),
+                    updateAt: new Date()
                 }
             ]
         }
