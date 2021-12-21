@@ -1,9 +1,9 @@
 const { writeFile, readFile, unlink } = require("fs/promises");
 
-const updateTask = async (username, taskSearch, update) => {
+const updateTask = async (username, id, update) => {
   try {
     var indexArray = null;
-    let data = JSON.parse(await readFile("src/database/database.JSON", "utf8"));
+    let data = JSON.parse(await readFile("./src/database/database.JSON", "utf8"));
     let userIndex = data.users.findIndex((user, index) => {
       if (user.username == username) {
         return true;
@@ -12,21 +12,22 @@ const updateTask = async (username, taskSearch, update) => {
     if (userIndex == -1) throw new Error("User not found");
 
     let task = await data.users[userIndex].tasks.find((task, index) => {
-      if (task.description == taskSearch) {
+      if (task.id === id) {
         indexArray = index;
-        return index;
+        return task;
       }
     });
     if (!task) throw new Error("Task not found");
 
     let updateTask = {
+      id:task.id,
       description: update,
-      created: task.createdAt,
+      createdAt: task.createdAt,
       updatedAt: new Date(),
     };
     data.users[userIndex].tasks[indexArray] = updateTask;
     data = JSON.stringify(data);
-    await writeFile("src/database/database.JSON", data);
+    await writeFile("./src/database/database.JSON", data);
   } catch (e) {
     console.log(e);
   }
