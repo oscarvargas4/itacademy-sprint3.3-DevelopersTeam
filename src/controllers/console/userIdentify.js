@@ -9,13 +9,13 @@ const userIdentify = async () => {
   term.inputField((error, input) => {
     term.red(`\nYour name is: ${input}\n`);
     userCheck(input).then(() => {
-      // process.exit();
-      menu();
-      // ! Intentar ejecutar el menu aqui --> Antes del process.exit()
+      menu(input.toLocaleLowerCase());
     });
+    if (error) {
+      throw new Error(error);
+    }
   });
   
-  // });
 };
 
 
