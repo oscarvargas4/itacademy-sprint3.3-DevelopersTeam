@@ -16,11 +16,9 @@ const menu = async () => {
   // Callback
   term.singleColumnMenu(items, (error, response) => {
     term("\n").eraseLineAfter.red(
-      "#%s selected: %s (%s, %s) \n",
-      response.selectedIndex,
-      response.selectedText,
-      response.x,
-      response.y
+      "#%s selected: %s \n",
+      response.selectedIndex + 1,
+      response.selectedText
     );
 
     console.log(response);
