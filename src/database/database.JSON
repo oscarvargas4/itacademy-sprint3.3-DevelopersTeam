@@ -1,9 +1,25 @@
 {
-  "users": [
-    {
-      "username": "admin",
-      "tasks": ["Work with the project", "Start a business"]
-    },
-    { "username": "oscar1", "tasks": [] }
-  ]
+    "users": [
+        {
+            "username": "admin",
+            "tasks": [
+                "Work with the project",
+                "Start a business"
+            ]
+        },
+        {
+            "username": "oscar1",
+            "tasks": [
+                {
+                    "description": "r13131",
+                    "updatedAt": "2021-12-21T07:59:07.715Z"
+                },
+                {
+                    "description": "r13131",
+                    "created": "2021-12-21T08:00:49.714Z",
+                    "updatedAt": "2021-12-21T08:06:22.028Z"
+                }
+            ]
+        }
+    ]
 }
