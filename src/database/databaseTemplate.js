@@ -3,8 +3,11 @@ let dataTemplate = {
         {
             username: "admin",
             tasks: [
-                "Work with the project",
-                "Start a business"
+                {
+                    description: "",
+                    createdAt: new Date(),
+                    updateAt: new Date()
+                }
             ]
         }
     ]
