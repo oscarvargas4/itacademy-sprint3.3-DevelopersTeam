@@ -4,12 +4,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "node src/app.js"
+    "dev": "node src/app.js",
+    "json": "cross-env NODE_ENV=json node src/app.js",
+    "mongo": "cross-env NODE_ENV=mongo node src/app.js",
+    "mysql": "cross-env NODE_ENV=mysql node src/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "mongoose": "^6.1.2",
     "mysql2": "^2.3.3",

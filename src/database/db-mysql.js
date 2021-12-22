@@ -34,4 +34,4 @@ const connectSequelize = async () => {
   }
 };
 
-module.exports = { connectSequelize, sequelize };
+module.exports = { checkDB: connectSequelize, sequelize };
