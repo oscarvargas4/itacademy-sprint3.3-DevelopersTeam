@@ -1,6 +1,6 @@
 const term = require("terminal-kit").terminal;
 const { createTask } = require("../task/createTask");
-const { updateTask } = require("../task/updateTask");
+const { updateTaskSelected } = require("../task/updateTask");
 const { seeAllTasks } = require("../task/seeAllTasks");
 const { seeSpecificTask } = require("../task/seeSpecificTask");
 
@@ -29,6 +29,7 @@ const menu = async (username) => {
       case 1:
         term.black.bgGreen("Please enter Task description:\n");
         term.inputField((error, input) => {
+          if (error) throw new Error(error);
           createTask(username, input)
             .then(() => {
               process.exit();
@@ -36,27 +37,8 @@ const menu = async (username) => {
             .catch((error) => console.log(error));
         });
         break;
-      case 2:
-        
-        // // Option 1:
-        // term.black.bgGreen(
-        //   "Please enter the Task description that you want to update:\n"
-        // );
-        // term.inputField((error, input) => {
-        //   term.black.bgGreen(
-        //     "\nPlease enter the new Task:\n"
-        //   );
-        //   term.inputField((error, input2) => {
-        //     updateTask(username, input, input2)
-        //       .then(() => {
-        //         process.exit();
-        //       })
-        //       .catch((error) => console.log(error));
-        //   });
-        // });
-
-        // Option 2:
-        
+      case 2:        
+        updateTaskSelected(username);        
         break;
       case 3:
         console.log("Option3");

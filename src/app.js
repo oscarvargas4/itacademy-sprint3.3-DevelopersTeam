@@ -3,8 +3,8 @@ const { checkDB } = require("./utils/checkDB");
 const { userIdentify } = require("./controllers/console/userIdentify");
 
 
-
-const main = async () => {
+// main function
+(async () => {
   try {
     // Check if Database Exists
     await checkDB();
@@ -14,6 +14,5 @@ const main = async () => {
     console.log(error);
   }
 
-}
+})();
 
-main();
