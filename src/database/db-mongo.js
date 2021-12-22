@@ -8,4 +8,4 @@ const connectMongo = () => {
   db.on('connected', () => console.log('MongoDb connected'));
   db.on('error', console.error.bind(console, 'mongo connection error'));
 };
-module.exports = { connectMongo };
+module.exports = { checkDB: connectMongo };

@@ -1,7 +1,9 @@
-const term = require("terminal-kit").terminal; // https://www.npmjs.com/package/terminal-kit
-const { checkDB } = require("./utils/checkDB");
-const { userIdentify } = require("./controllers/console/userIdentify");
+const { dbByEnv } = require('../config');
 
+console.log('dbByEnv', dbByEnv); // TODO borrar
+
+const { checkDB } = require(dbByEnv);
+const { userIdentify } = require('./controllers/console/userIdentify');
 
 // main function
 (async () => {
@@ -13,6 +15,4 @@ const { userIdentify } = require("./controllers/console/userIdentify");
   } catch (error) {
     console.log(error);
   }
-
 })();
-
