@@ -23,9 +23,7 @@ const userCheck = async (input) => {
       await writeFile("src/database/database.JSON", data);
 
       console.log("New User created!");
-    } else {
-      console.log(userIndex);
-    }
+    } 
 
     
   } catch (error) {
