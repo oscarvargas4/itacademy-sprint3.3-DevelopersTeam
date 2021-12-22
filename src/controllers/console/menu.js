@@ -3,6 +3,7 @@ const { createTask } = require("../task/createTask");
 const { updateTaskSelected } = require("../task/updateTask");
 const { seeAllTasks } = require("../task/seeAllTasks");
 const { seeSpecificTask } = require("../task/seeSpecificTask");
+const { deleteTask } = require("../task/deleteTask");
 
 // Menu: crear tasca, actualitzar tasca, esborrar tasca, llistar totes les tasques o llistar una tasca específica
 
@@ -27,32 +28,22 @@ const menu = async (username) => {
 
     switch (response.selectedIndex + 1) {
       case 1:
-        term.black.bgGreen("Please enter Task description:\n");
-        term.inputField((error, input) => {
-          if (error) throw new Error(error);
-          createTask(username, input)
-            .then(() => {
-              process.exit();
-            })
-            .catch((error) => console.log(error));
-        });
+        createTask(username);
         break;
       case 2:        
         updateTaskSelected(username);        
         break;
       case 3:
-        console.log("Option3");
+        deleteTask(username);
         break;
       case 4:
-        seeAllTasks(username).then(() => {
-          process.exit()
-        });        
+        seeAllTasks(username)      
         break;
       case 5:
         seeSpecificTask(username);
         break;
       case 6:
-        console.log("Good Bye!");
+        term.red("Good Bye!");
         process.exit();
     }
 

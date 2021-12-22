@@ -1,7 +1,7 @@
 const { writeFile, readFile, unlink } = require("fs/promises");
 const term = require("terminal-kit").terminal;
 
-const seeSpecificTask = async (username) => {
+const deleteTask = async (username) => {
   try {
     let data = JSON.parse(
       await readFile("./src/database/database.JSON", "utf8")
@@ -28,11 +28,22 @@ const seeSpecificTask = async (username) => {
         response.selectedIndex + 1,
         response.selectedText
       );
-      process.exit();
+
+      let newTasks = tasks.filter(
+        (task) => task.id != tasks[response.selectedIndex].id
+      );
+      data.users[userIndex].tasks = newTasks;
+
+      data = JSON.stringify(data);
+      writeFile("./src/database/database.JSON", data).then(() => {
+        term.red(`Task deleted successfully`)
+        process.exit();
+      });
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-module.exports = { seeSpecificTask };
+
+module.exports = { deleteTask };
