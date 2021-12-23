@@ -1,31 +1,28 @@
-const { writeFile, readFile, unlink } = require("fs/promises");
+const { writeFile, readFile, unlink } = require('fs/promises');
 
 // Create File
 const userCheck = async (input) => {
   try {
-
-    let data = await readFile("src/database/database.JSON", "utf8");
+    let data = await readFile('src/database/database.JSON', 'utf8');
     data = JSON.parse(data);
-    let userIndex = data.users.findIndex((user, index) => {
-      if(user.username == input.toLowerCase()) {
+    const userIndex = data.users.findIndex((user, index) => {
+      if (user.username == input.toLowerCase()) {
         return true;
       }
     });
 
     if (userIndex == -1) {
-      let newUser = {
+      const newUser = {
         username: input.toLowerCase(),
-        tasks: []
+        tasks: [],
       };
 
-      data.users.push(newUser)
+      data.users.push(newUser);
       data = JSON.stringify(data);
-      await writeFile("src/database/database.JSON", data);
+      await writeFile('src/database/database.JSON', data);
 
-      console.log("New User created!");
-    } 
-
-    
+      console.log('New User created!');
+    }
   } catch (error) {
     console.log(error);
   }
@@ -33,7 +30,7 @@ const userCheck = async (input) => {
 
 // userCheck("oscar")
 
-// ? Read File - Read File is not necessary 
+// ? Read File - Read File is not necessary
 // readFile("src/database/database.JSON", "utf8").then((data) => {
 //     console.log(data);
 // });
