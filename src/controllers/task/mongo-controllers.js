@@ -5,6 +5,7 @@ const createUser = async (username) => {
   try {
     console.log('entra al create user con username como:', username);
     const newUser = new User({
+      username:
       usernameLC,
     });
 
@@ -14,6 +15,7 @@ const createUser = async (username) => {
 };
 
 const userCheck = async (input) => {
+  console.log('entra a userCheck');
   const inputLC = input.toLowerCase();
   try {
     console.log('input: ', input);
@@ -27,7 +29,7 @@ const userCheck = async (input) => {
     }
     if (foundUser === null) {
       console.log('entra al false');
-      await createUser(input);
+      await createUser(inputLC);
     }
   } catch (error) {
     console.log(error);
