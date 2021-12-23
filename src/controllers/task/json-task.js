@@ -2,38 +2,47 @@ const { writeFile, readFile, unlink } = require('fs/promises');
 const { v4: uuidv4 } = require('uuid');
 const term = require('terminal-kit').terminal;
 
-const createTask = async (username) => {
+const readDBandReturnIndex = async () => {
   try {
-    term.black.bgGreen('Please enter Task description:\n');
-    term.inputField(async (error, input) => {
-      try {
-        let data = await readFile('./src/database/database.JSON', 'utf8');
-        data = JSON.parse(data);
-        const userIndex = data.users.findIndex((user, index) => {
-          if (user.username == username.toLowerCase()) {
-            return true;
-          }
-        });
-        if (userIndex == -1) throw new Error('User not found');
-
-        const newTask = {
-          id: uuidv4(),
-          description: input,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
-
-        data.users[userIndex].tasks.push(newTask);
-        data = JSON.stringify(data);
-
-        await writeFile('./src/database/database.JSON', data);
-        term.red('\nTask created\n');
-
-        process.exit();
-      } catch (error) {
-        console.log(error);
+    let data = JSON.parse(
+      await readFile('./src/database/database.JSON', 'utf8'),
+    );
+    data = JSON.parse(data);
+    const userIndex = data.users.findIndex((user) => {
+      if (user.username == username.toLowerCase()) {
+        return true;
       }
     });
+    if (userIndex == -1) throw new Error('User not found');
+  } catch (e) { console.log(e); }
+};
+
+const createTask = async (username) => {
+  term.black.bgGreen('Please enter Task description:\n');
+  try {
+    const input = await term.inputField({}).promise;
+    let data = await readFile('./src/database/database.JSON', 'utf8');
+    data = JSON.parse(data);
+    const userIndex = data.users.findIndex((user, index) => {
+      if (user.username == username.toLowerCase()) {
+        return true;
+      }
+    });
+    console.log('userIndex:::', userIndex);
+    if (userIndex == -1) throw new Error('User not found');
+
+    const newTask = {
+      id: uuidv4(),
+      description: input,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    data.users[userIndex].tasks.push(newTask);
+    data = JSON.stringify(data);
+
+    await writeFile('./src/database/database.JSON', data);
+    term.red('\nTask created\n');
   } catch (e) {
     console.log(e);
   }
@@ -56,6 +65,7 @@ const deleteTask = async (username) => {
     for (let i = 0; i < tasks.length; i++) {
       items[i] = tasks[i].description;
     }
+    // Hasta aca es readData
 
     term.black.bgGreen('\nSelect a Task:\n');
     term.singleColumnMenu(items, (error, response) => {
