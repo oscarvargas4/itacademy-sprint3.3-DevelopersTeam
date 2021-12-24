@@ -24,34 +24,32 @@ const menu = async (username) => {
       response.selectedIndex + 1,
       response.selectedText,
     );
-    async function switchFun() {
+    
+    (async () => {
       switch (response.selectedIndex + 1) {
         case 1:
           await createTask(username);
-          menu(username);
           break;
         case 2:
           await updateTaskSelected(username);
-          menu(username);
           break;
         case 3:
           await deleteTask(username);
-          menu(username);
+
           break;
         case 4:
           await seeAllTasks(username);
-          menu(username);
           break;
         case 5:
           await seeSpecificTask(username);
-          menu(username);
           break;
         case 6:
           term.red('Good Bye!');
           process.exit();
       }
-    }
-    switchFun();
+      menu(username);
+    })();
+
     if (error) {
       throw new Error(error);
     }

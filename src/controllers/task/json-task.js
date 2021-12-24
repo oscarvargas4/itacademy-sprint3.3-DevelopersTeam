@@ -175,7 +175,6 @@ const updateTaskSelected = async (username) => {
       term.red('\n There are no tasks \n');
     }else{
       var response = await term.singleColumnMenu(items).promise;
-      console.log(response)
       term.black.bgGreen('Please enter new Task description:\n');
       var input = await term.inputField().promise ;
 
