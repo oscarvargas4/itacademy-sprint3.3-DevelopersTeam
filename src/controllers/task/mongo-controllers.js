@@ -1,23 +1,26 @@
 const User = require('../../database/mongo-model');
 
 const createUser = async (username) => {
+  const usernameLC = username.toLowerCase();
   try {
     console.log('entra al create user con username como:', username);
     const newUser = new User({
-      username,
+      username:
+      usernameLC,
     });
 
-    console.log('newUser:::', newUser);
+    console.log('newUser created:::', newUser);
     await newUser.save();
   } catch (err) { console.log(err); }
 };
 
 const userCheck = async (input) => {
+  console.log('entra a userCheck');
+  const inputLC = input.toLowerCase();
   try {
     console.log('input: ', input);
-    // TODO hacer la la busqueda independiente del casing
     const foundUser = await User.findOne({
-      username: input,
+      username: inputLC,
     });
     console.log('found user::,', foundUser);
     if (foundUser === true) {
@@ -26,7 +29,7 @@ const userCheck = async (input) => {
     }
     if (foundUser === null) {
       console.log('entra al false');
-      await createUser(input);
+      await createUser(inputLC);
     }
   } catch (error) {
     console.log(error);
