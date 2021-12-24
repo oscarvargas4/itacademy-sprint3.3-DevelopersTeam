@@ -2,6 +2,23 @@ const { writeFile, readFile, unlink } = require('fs/promises');
 const { v4: uuidv4 } = require('uuid');
 const term = require('terminal-kit').terminal;
 
+// Helper methods //TODO talvez no deberian estar aca
+const getData = async () => {
+  try {
+    const data = JSON.parse(
+      await readFile('./src/database/database.JSON', 'utf8'),
+    );
+    return data;
+  } catch (e) { console.log(e); }
+};
+
+const getIndex = (data, username) => {
+  const userIndex = data.users.findIndex((user) => user.username === username);
+  return userIndex;
+};
+
+// Controladores
+
 const createTask = async (username) => {
   term.black.bgGreen('Please enter Task description:\n');
   try {
@@ -35,15 +52,8 @@ const createTask = async (username) => {
 
 const deleteTask = async (username) => {
   try {
-    let data = JSON.parse(
-      await readFile('./src/database/database.JSON', 'utf8'),
-    );
-    const userIndex = data.users.findIndex((user, index) => {
-      if (user.username == username) {
-        return true;
-      }
-    });
-    if (userIndex == -1) throw new Error('User not found');
+    let data = await getData();
+    const userIndex = getIndex(data, username);
 
     const tasks = await data.users[userIndex].tasks;
     const items = [];
