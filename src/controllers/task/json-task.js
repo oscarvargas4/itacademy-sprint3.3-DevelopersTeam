@@ -133,7 +133,7 @@ const updateTask = async (username, id, update) => {
       }
     });
 
-    const task = data.users[userIndex].tasks.find((task, index) => { // se puede quitar await
+    const task = await data.users[userIndex].tasks.find((task, index) => { // No :()
       if (task.id === id) {
         indexArray = index;
         return task;
@@ -173,27 +173,21 @@ const updateTaskSelected = async (username) => {
       items[i] = tasks[i].description;
     }
 
-    term.black.bgGreen('Select a Tasks:\n');
-    term.singleColumnMenu(items, (error, response) => {
-      term('\n').eraseLineAfter.red(
-        '#%s selected: %s \n',
-        response.selectedIndex + 1,
-        response.selectedText,
-      );
-
-      if (error) throw new Error(error);
-
+    if(items.length === 0) {
+      term.red('\n There are no tasks \n');
+    }else{
+      var response = await term.singleColumnMenu(items).promise;
+      console.log(response)
       term.black.bgGreen('Please enter new Task description:\n');
-      term.inputField((error, input) => {
-        if (error) throw new Error(error);
+      var input = await term.inputField().promise ;
 
-        updateTask(username, tasks[response.selectedIndex].id, input)
-          .then(() => {
-            term.red(`\nTask updated to: \n"${input}"`);
-            process.exit();
-          });
+      await updateTask(username, tasks[response.selectedIndex].id, input)
+      .then(() => {
+        term.red(`\nTask updated to: "${input}" \n`);
       });
-    });
+      
+    }
+
   } catch (error) {
     console.log(error);
   }
