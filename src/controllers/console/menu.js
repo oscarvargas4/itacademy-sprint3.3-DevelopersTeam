@@ -31,7 +31,8 @@ const menu = async (username) => {
           menu(username);
           break;
         case 2:
-          updateTaskSelected(username);
+          await updateTaskSelected(username);
+          menu(username);
           break;
         case 3:
           await deleteTask(username);
