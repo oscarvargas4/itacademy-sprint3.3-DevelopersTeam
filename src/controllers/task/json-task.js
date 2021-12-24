@@ -48,7 +48,7 @@ const deleteTask = async (username) => {
     let data = await getData();
     const userIndex = getIndex(data, username);
 
-    const tasks = await data.users[userIndex].tasks;
+    const { tasks } = data.users[userIndex];
     const items = [];
     for (let i = 0; i < tasks.length; i++) {
       items[i] = tasks[i].description;
@@ -82,17 +82,10 @@ const deleteTask = async (username) => {
 
 const seeAllTasks = async (username) => {
   try {
-    const data = JSON.parse(
-      await readFile('./src/database/database.JSON', 'utf8'),
-    );
-    const userIndex = data.users.findIndex((user, index) => {
-      if (user.username == username) {
-        return true;
-      }
-    });
-    if (userIndex == -1) throw new Error('User not found');
+    const data = await getData();
+    const userIndex = getIndex(data, username);
 
-    const tasks = await data.users[userIndex].tasks;
+    const { tasks } = data.users[userIndex];
     term.red(`${username} is Tasks: \n`);
     for (let i = 0; i < tasks.length; i++) {
       console.log(`Task #${i + 1}: ${tasks[i].description}`);
