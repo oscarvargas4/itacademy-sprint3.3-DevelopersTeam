@@ -132,9 +132,8 @@ const updateTask = async (username, id, update) => {
         return true;
       }
     });
-    if (userIndex == -1) throw new Error('User not found');
 
-    const task = await data.users[userIndex].tasks.find((task, index) => {
+    const task = data.users[userIndex].tasks.find((task, index) => { // se puede quitar await
       if (task.id === id) {
         indexArray = index;
         return task;
@@ -167,9 +166,8 @@ const updateTaskSelected = async (username) => {
         return true;
       }
     });
-    if (userIndex == -1) throw new Error('User not found');
 
-    const tasks = await data.users[userIndex].tasks;
+    const tasks = data.users[userIndex].tasks;
     const items = [];
     for (let i = 0; i < tasks.length; i++) {
       items[i] = tasks[i].description;
