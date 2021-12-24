@@ -38,7 +38,8 @@ const menu = async (username) => {
           menu(username);
           break;
         case 4:
-          seeAllTasks(username);
+          await seeAllTasks(username);
+          menu(username);
           break;
         case 5:
           seeSpecificTask(username);

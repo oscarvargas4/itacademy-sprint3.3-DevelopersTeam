@@ -90,7 +90,6 @@ const seeAllTasks = async (username) => {
     for (let i = 0; i < tasks.length; i++) {
       console.log(`Task #${i + 1}: ${tasks[i].description}`);
     }
-    process.exit();
   } catch (error) {
     console.log(error);
   }
@@ -98,17 +97,10 @@ const seeAllTasks = async (username) => {
 
 const seeSpecificTask = async (username) => {
   try {
-    const data = JSON.parse(
-      await readFile('./src/database/database.JSON', 'utf8'),
-    );
-    const userIndex = data.users.findIndex((user, index) => {
-      if (user.username == username) {
-        return true;
-      }
-    });
-    if (userIndex == -1) throw new Error('User not found');
+    const data = await getData();
+    const userIndex = getIndex(data, username);
 
-    const tasks = await data.users[userIndex].tasks;
+    const { tasks } = data.users[userIndex];
     const items = [];
     for (let i = 0; i < tasks.length; i++) {
       items[i] = tasks[i].description;
