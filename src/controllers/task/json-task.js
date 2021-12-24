@@ -2,21 +2,6 @@ const { writeFile, readFile, unlink } = require('fs/promises');
 const { v4: uuidv4 } = require('uuid');
 const term = require('terminal-kit').terminal;
 
-const readDBandReturnIndex = async () => {
-  try {
-    let data = JSON.parse(
-      await readFile('./src/database/database.JSON', 'utf8'),
-    );
-    data = JSON.parse(data);
-    const userIndex = data.users.findIndex((user) => {
-      if (user.username == username.toLowerCase()) {
-        return true;
-      }
-    });
-    if (userIndex == -1) throw new Error('User not found');
-  } catch (e) { console.log(e); }
-};
-
 const createTask = async (username) => {
   term.black.bgGreen('Please enter Task description:\n');
   try {
@@ -68,25 +53,24 @@ const deleteTask = async (username) => {
     // Hasta aca es readData
 
     term.black.bgGreen('\nSelect a Task:\n');
-    term.singleColumnMenu(items, (error, response) => {
-      if (error) throw new Error(error);
+    const response = await term.singleColumnMenu(items).promise;
 
-      term('\n').eraseLineAfter.red(
-        '#%s selected: %s \n',
-        response.selectedIndex + 1,
-        response.selectedText,
-      );
+    console.log(response);
 
-      const newTasks = tasks.filter(
-        (task) => task.id != tasks[response.selectedIndex].id,
-      );
-      data.users[userIndex].tasks = newTasks;
+    term('\n').eraseLineAfter.red(
+      '#%s selected: %s \n',
+      response.selectedIndex + 1,
+      response.selectedText,
+    );
 
-      data = JSON.stringify(data);
-      writeFile('./src/database/database.JSON', data).then(() => {
-        term.red('Task deleted successfully');
-        process.exit();
-      });
+    const newTasks = tasks.filter(
+      (task) => task.id != tasks[response.selectedIndex].id,
+    );
+    data.users[userIndex].tasks = newTasks;
+
+    data = JSON.stringify(data);
+    writeFile('./src/database/database.JSON', data).then(() => {
+      term.red('Task deleted successfully \n');
     });
   } catch (error) {
     console.log(error);

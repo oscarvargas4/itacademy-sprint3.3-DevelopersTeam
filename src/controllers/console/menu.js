@@ -6,8 +6,6 @@ const {
   createTask, deleteTask, seeAllTasks, seeSpecificTask, updateTaskSelected,
 } = require(controllersByEnv);
 
-// Menu: crear tasca, actualitzar tasca, esborrar tasca, llistar totes les tasques o llistar una tasca específica
-
 const menu = async (username) => {
   term.green('Select one option from the menu: \n');
   const items = [
@@ -37,7 +35,7 @@ const menu = async (username) => {
           break;
         case 3:
           await deleteTask(username);
-
+          menu(username);
           break;
         case 4:
           seeAllTasks(username);
