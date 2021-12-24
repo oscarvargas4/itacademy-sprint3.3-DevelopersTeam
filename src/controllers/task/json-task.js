@@ -12,6 +12,7 @@ const getData = async () => {
   } catch (e) { console.log(e); }
 };
 
+
 const getIndex = (data, username) => {
   const userIndex = data.users.findIndex((user) => user.username === username);
   return userIndex;
@@ -107,16 +108,13 @@ const seeSpecificTask = async (username) => {
     }
 
     term.black.bgGreen('\nSelect a Task:\n');
-    term.singleColumnMenu(items, (error, response) => {
-      if (error) throw new Error(error);
+    const response = await term.singleColumnMenu(items).promise;
+    // tasks[response.selectedIndex].id
+    term.bold(`\nID: ${tasks[response.selectedIndex].id} \n`);
+    term.bold(`Description : ${tasks[response.selectedIndex].description} \n`);
+    term.bold(`Created : ${tasks[response.selectedIndex].createdAt} \n`);
+    term.bold(`Updated : ${tasks[response.selectedIndex].updatedAt} \n`);
 
-      term('\n').eraseLineAfter.red(
-        '#%s selected: %s \n',
-        response.selectedIndex + 1,
-        response.selectedText,
-      );
-      process.exit();
-    });
   } catch (error) {
     console.log(error);
   }

@@ -43,7 +43,8 @@ const menu = async (username) => {
           menu(username);
           break;
         case 5:
-          seeSpecificTask(username);
+          await seeSpecificTask(username);
+          menu(username);
           break;
         case 6:
           term.red('Good Bye!');
