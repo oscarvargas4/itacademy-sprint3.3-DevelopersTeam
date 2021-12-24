@@ -23,15 +23,8 @@ const createTask = async (username) => {
   term.black.bgGreen('Please enter Task description:\n');
   try {
     const input = await term.inputField({}).promise;
-    let data = await readFile('./src/database/database.JSON', 'utf8');
-    data = JSON.parse(data);
-    const userIndex = data.users.findIndex((user, index) => {
-      if (user.username == username.toLowerCase()) {
-        return true;
-      }
-    });
-    console.log('userIndex:::', userIndex);
-    if (userIndex == -1) throw new Error('User not found');
+    let data = await getData();
+    const userIndex = getIndex(data, username);
 
     const newTask = {
       id: uuidv4(),
