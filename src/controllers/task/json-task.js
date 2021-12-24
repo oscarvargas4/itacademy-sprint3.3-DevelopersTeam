@@ -2,38 +2,42 @@ const { writeFile, readFile, unlink } = require('fs/promises');
 const { v4: uuidv4 } = require('uuid');
 const term = require('terminal-kit').terminal;
 
-const createTask = async (username) => {
+// Helper methods //TODO talvez no deberian estar aca
+const getData = async () => {
   try {
-    term.black.bgGreen('Please enter Task description:\n');
-    term.inputField(async (error, input) => {
-      try {
-        let data = await readFile('./src/database/database.JSON', 'utf8');
-        data = JSON.parse(data);
-        const userIndex = data.users.findIndex((user, index) => {
-          if (user.username == username.toLowerCase()) {
-            return true;
-          }
-        });
-        if (userIndex == -1) throw new Error('User not found');
+    const data = JSON.parse(
+      await readFile('./src/database/database.JSON', 'utf8'),
+    );
+    return data;
+  } catch (e) { console.log(e); }
+};
 
-        const newTask = {
-          id: uuidv4(),
-          description: input,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
+const getIndex = (data, username) => {
+  const userIndex = data.users.findIndex((user) => user.username === username);
+  return userIndex;
+};
 
-        data.users[userIndex].tasks.push(newTask);
-        data = JSON.stringify(data);
+// Controladores
 
-        await writeFile('./src/database/database.JSON', data);
-        term.red('\nTask created\n');
+const createTask = async (username) => {
+  term.black.bgGreen('Please enter Task description:\n');
+  try {
+    const input = await term.inputField({}).promise;
+    let data = await getData();
+    const userIndex = getIndex(data, username);
 
-        process.exit();
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    const newTask = {
+      id: uuidv4(),
+      description: input,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    data.users[userIndex].tasks.push(newTask);
+    data = JSON.stringify(data);
+
+    await writeFile('./src/database/database.JSON', data);
+    term.red('\nTask created\n');
   } catch (e) {
     console.log(e);
   }
@@ -41,42 +45,35 @@ const createTask = async (username) => {
 
 const deleteTask = async (username) => {
   try {
-    let data = JSON.parse(
-      await readFile('./src/database/database.JSON', 'utf8'),
-    );
-    const userIndex = data.users.findIndex((user, index) => {
-      if (user.username == username) {
-        return true;
-      }
-    });
-    if (userIndex == -1) throw new Error('User not found');
+    let data = await getData();
+    const userIndex = getIndex(data, username);
 
-    const tasks = await data.users[userIndex].tasks;
+    const { tasks } = data.users[userIndex];
     const items = [];
     for (let i = 0; i < tasks.length; i++) {
       items[i] = tasks[i].description;
     }
+    // Hasta aca es readData
 
     term.black.bgGreen('\nSelect a Task:\n');
-    term.singleColumnMenu(items, (error, response) => {
-      if (error) throw new Error(error);
+    const response = await term.singleColumnMenu(items).promise;
 
-      term('\n').eraseLineAfter.red(
-        '#%s selected: %s \n',
-        response.selectedIndex + 1,
-        response.selectedText,
-      );
+    console.log(response);
 
-      const newTasks = tasks.filter(
-        (task) => task.id != tasks[response.selectedIndex].id,
-      );
-      data.users[userIndex].tasks = newTasks;
+    term('\n').eraseLineAfter.red(
+      '#%s selected: %s \n',
+      response.selectedIndex + 1,
+      response.selectedText,
+    );
 
-      data = JSON.stringify(data);
-      writeFile('./src/database/database.JSON', data).then(() => {
-        term.red('Task deleted successfully');
-        process.exit();
-      });
+    const newTasks = tasks.filter(
+      (task) => task.id != tasks[response.selectedIndex].id,
+    );
+    data.users[userIndex].tasks = newTasks;
+
+    data = JSON.stringify(data);
+    writeFile('./src/database/database.JSON', data).then(() => {
+      term.red('Task deleted successfully \n');
     });
   } catch (error) {
     console.log(error);
@@ -85,22 +82,14 @@ const deleteTask = async (username) => {
 
 const seeAllTasks = async (username) => {
   try {
-    const data = JSON.parse(
-      await readFile('./src/database/database.JSON', 'utf8'),
-    );
-    const userIndex = data.users.findIndex((user, index) => {
-      if (user.username == username) {
-        return true;
-      }
-    });
-    if (userIndex == -1) throw new Error('User not found');
+    const data = await getData();
+    const userIndex = getIndex(data, username);
 
-    const tasks = await data.users[userIndex].tasks;
+    const { tasks } = data.users[userIndex];
     term.red(`${username} is Tasks: \n`);
     for (let i = 0; i < tasks.length; i++) {
       console.log(`Task #${i + 1}: ${tasks[i].description}`);
     }
-    process.exit();
   } catch (error) {
     console.log(error);
   }
@@ -108,17 +97,10 @@ const seeAllTasks = async (username) => {
 
 const seeSpecificTask = async (username) => {
   try {
-    const data = JSON.parse(
-      await readFile('./src/database/database.JSON', 'utf8'),
-    );
-    const userIndex = data.users.findIndex((user, index) => {
-      if (user.username == username) {
-        return true;
-      }
-    });
-    if (userIndex == -1) throw new Error('User not found');
+    const data = await getData();
+    const userIndex = getIndex(data, username);
 
-    const tasks = await data.users[userIndex].tasks;
+    const { tasks } = data.users[userIndex];
     const items = [];
     for (let i = 0; i < tasks.length; i++) {
       items[i] = tasks[i].description;
