@@ -61,8 +61,6 @@ const deleteTask = async (username) => {
     term.black.bgGreen("\nSelect a Task:\n");
     const response = await term.singleColumnMenu(items).promise;
 
-    console.log(response);
-
     term("\n").eraseLineAfter.red(
       "#%s selected: %s \n",
       response.selectedIndex + 1,
@@ -75,9 +73,8 @@ const deleteTask = async (username) => {
     data.users[userIndex].tasks = newTasks;
 
     data = JSON.stringify(data);
-    writeFile("./src/database/database.JSON", data).then(() => {
-      term.red("Task deleted successfully \n");
-    });
+    await writeFile("./src/database/database.JSON", data);
+    term.red("\nTask deleted successfully \n");
   } catch (error) {
     console.log(error);
   }
@@ -111,13 +108,12 @@ const seeSpecificTask = async (username) => {
 
     term.black.bgGreen("\nSelect a Task:\n");
     const response = await term.singleColumnMenu(items).promise;
-    // tasks[response.selectedIndex].id
     term.bold(`\nID: ${tasks[response.selectedIndex].id} \n`);
     term.bold(`Description : ${tasks[response.selectedIndex].description} \n`);
     term.bold(`Status : ${tasks[response.selectedIndex].status} \n`);
     term.bold(`Created : ${tasks[response.selectedIndex].createdAt} \n`);
     term.bold(`Updated : ${tasks[response.selectedIndex].updatedAt} \n`);
-    if(tasks[response.selectedIndex].finishedAt) {
+    if (tasks[response.selectedIndex].finishedAt) {
       term.bold(`Finished : ${tasks[response.selectedIndex].finishedAt} \n`);
     }
   } catch (error) {
@@ -245,17 +241,13 @@ const finishTaskSelected = async (username) => {
     } else {
       term.black.bgGreen("Which Task would you like to finish?:\n");
       var response = await term.singleColumnMenu(items).promise;
-      await finishTask(username, tasks[response.selectedIndex].id).then(
-        () => {
-          term.red(`\nTask finished successfully\n`);
-        }
-      );
+      await finishTask(username, tasks[response.selectedIndex].id);
+      term.red(`\nTask finished successfully\n`);
     }
   } catch (error) {
     console.log(error);
   }
 };
-
 
 module.exports = {
   createTask,
@@ -263,5 +255,5 @@ module.exports = {
   seeAllTasks,
   seeSpecificTask,
   updateTaskSelected,
-  finishTaskSelected
+  finishTaskSelected,
 };
