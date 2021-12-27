@@ -5,6 +5,7 @@ let dataTemplate = {
             tasks: [
                 {
                     description: "",
+                    status: "started",
                     createdAt: new Date(),
                     updateAt: new Date()
                 }
