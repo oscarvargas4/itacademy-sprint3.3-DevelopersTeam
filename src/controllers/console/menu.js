@@ -1,10 +1,11 @@
 /* eslint-disable default-case */
 const term = require('terminal-kit').terminal;
 const { controllersByEnv } = require('../../../config');
-
 const {
-  createTask, deleteTask, seeAllTasks, seeSpecificTask, updateTaskSelected,
+  createTask, deleteTask, seeAllTasks, seeSpecificTask, updateTaskSelected, finishTaskSelected
 } = require(controllersByEnv);
+
+
 
 const menu = async (username) => {
   term.green('Select one option from the menu: \n');
@@ -14,7 +15,8 @@ const menu = async (username) => {
     '3. Delete Task', // deleteTask()
     '4. See all Tasks', // seeAllTasks()
     '5. See specific Task', // seeSpecificTask()
-    '6. Exit',
+    '6. Finish specific Task', // finishTask();
+    '7. Exit',
   ];
 
   // Callback
@@ -44,6 +46,9 @@ const menu = async (username) => {
           await seeSpecificTask(username);
           break;
         case 6:
+          await finishTaskSelected(username);
+          break;
+        case 7:
           term.red('Good Bye!');
           process.exit();
       }
