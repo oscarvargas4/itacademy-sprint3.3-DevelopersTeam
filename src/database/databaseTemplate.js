@@ -7,7 +7,8 @@ let dataTemplate = {
                     description: "",
                     status: "started",
                     createdAt: new Date(),
-                    updateAt: new Date()
+                    updateAt: new Date(),
+                    finishedAt: null
                 }
             ]
         }
