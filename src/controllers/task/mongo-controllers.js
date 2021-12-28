@@ -14,7 +14,7 @@ const createUser = async (username) => {
   } catch (err) { console.log(err); }
 };
 
-const userCheck = async (input) => {
+const userCheck = async (input) => { // ! Dejaremos los console.log?
   console.log('entra a userCheck');
   const inputLC = input.toLowerCase();
   try {
@@ -53,7 +53,7 @@ const createTask = async (username, task) => {
       taskName: task,
       // TODO provisional, deberia poder seleccionarse de consola
       start_date: Date.now(),
-      end_date: Date.now(),
+      end_date: Date.now(), // ! End Date debe ser null a la hora de crear la tarea, se debe agregar el campo createdAt
     };
     foundUser.tasks.push(newTask);
     await foundUser.save();
@@ -66,6 +66,7 @@ const deleteTask = async (username, task) => {};
 const seeAllTasks = async (username, task) => {};
 const seeSpecificTask = async (username, task) => {};
 const updateTaskSelected = async (username, task) => {};
+// ! Falta la opción finishTask y finishTaskSelected
 
 module.exports = {
 
