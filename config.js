@@ -15,15 +15,13 @@ let controllersByEnv;
 let userCheckByEnv;
 
 if (process.env.NODE_ENV === 'mongo') {
-  dbByEnv = './database/db-mongo'; 
-  controllersByEnv = '../task/mongo-controllers';
+  [dbByEnv, controllersByEnv] = ['./database/db-mongo', '../task/mongo-controllers'];
 } else if (process.env.NODE_ENV === 'mysql') {
-  dbByEnv = './database/db-mysql';
-  controllersByEnv = '../task/mysql-controllers';
+  [dbByEnv, controllersByEnv] = ['./database/db-mysql', '../task/mysql-controllers'];
 } else if (process.env.NODE_ENV === 'json') {
-  dbByEnv = './database/db-json'; 
-  controllersByEnv = '../task/json-controllers';
+  [dbByEnv, controllersByEnv] = ['./database/db-json', '../task/json-controllers'];
 }
+
 module.exports = {
   MONGODB_URI,
   PORT,
