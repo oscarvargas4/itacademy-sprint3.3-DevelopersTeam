@@ -11,4 +11,6 @@ User.init({
   },
 }, { sequelize, modelName: 'user' });
 
+// TODO crear invited-id
+
 module.exports = User;

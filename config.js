@@ -15,17 +15,14 @@ let controllersByEnv;
 let userCheckByEnv;
 
 if (process.env.NODE_ENV === 'mongo') {
-  dbByEnv = './database/db-mongo'; // ! Definimos una carpeta para los modelos?
+  dbByEnv = './database/db-mongo'; 
   controllersByEnv = '../task/mongo-controllers';
-  userCheckByEnv = '../task/mongo-controllers';
 } else if (process.env.NODE_ENV === 'mysql') {
   dbByEnv = './database/db-mysql';
   controllersByEnv = '../task/mysql-controllers';
-  userCheckByEnv = '../task/mysql-controllers';
 } else if (process.env.NODE_ENV === 'json') {
-  dbByEnv = './utils/checkDB'; // ! Unificamos la ubicación de este archivo con las de mongo y mysql?
-  controllersByEnv = '../task/json-task';
-  userCheckByEnv = '../user/userCheck';
+  dbByEnv = './database/db-json'; 
+  controllersByEnv = '../task/json-controllers';
 }
 module.exports = {
   MONGODB_URI,

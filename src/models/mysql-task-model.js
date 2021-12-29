@@ -10,8 +10,9 @@ Task.init({
     allowNull: false,
     unique: true,
   },
-  start_date: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-  end_date: { type: DataTypes.DATE, allowNull: false },
+  createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  finishAt: { type: DataTypes.DATE},
 
 }, { sequelize, modelName: 'task' });
 

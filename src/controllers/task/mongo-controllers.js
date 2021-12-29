@@ -1,4 +1,4 @@
-const User = require('../../database/mongo-model');
+const User = require('../../models/mongo-model');
 
 const createUser = async (username) => {
   const usernameLC = username.toLowerCase();
@@ -14,7 +14,7 @@ const createUser = async (username) => {
   } catch (err) { console.log(err); }
 };
 
-const userCheck = async (input) => { // ! Dejaremos los console.log?
+const userCheck = async (input) => { // ! Borrar console.log
   console.log('entra a userCheck');
   const inputLC = input.toLowerCase();
   try {
@@ -22,7 +22,7 @@ const userCheck = async (input) => { // ! Dejaremos los console.log?
     const foundUser = await User.findOne({
       username: inputLC,
     });
-    console.log('found user::,', foundUser);
+    console.log('found user:,', foundUser);
     if (foundUser === true) {
       console.log('entra al true');
       return true;
@@ -66,7 +66,7 @@ const deleteTask = async (username, task) => {};
 const seeAllTasks = async (username, task) => {};
 const seeSpecificTask = async (username, task) => {};
 const updateTaskSelected = async (username, task) => {};
-// ! Falta la opción finishTask y finishTaskSelected
+const finishTaskSelected = async (username, task) => {};
 
 module.exports = {
 
@@ -77,5 +77,4 @@ module.exports = {
   seeAllTasks,
   seeSpecificTask,
   updateTaskSelected,
-
 };
