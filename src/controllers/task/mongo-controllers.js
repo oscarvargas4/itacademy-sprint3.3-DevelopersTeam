@@ -1,4 +1,4 @@
-const User = require('../../database/mongo-model');
+const User = require('../../models/mongo-model');
 
 const createUser = async (username) => {
   const usernameLC = username.toLowerCase();
@@ -14,7 +14,7 @@ const createUser = async (username) => {
   } catch (err) { console.log(err); }
 };
 
-const userCheck = async (input) => {
+const userCheck = async (input) => { // ! Borrar console.log
   console.log('entra a userCheck');
   const inputLC = input.toLowerCase();
   try {
@@ -22,7 +22,7 @@ const userCheck = async (input) => {
     const foundUser = await User.findOne({
       username: inputLC,
     });
-    console.log('found user::,', foundUser);
+    console.log('found user:,', foundUser);
     if (foundUser === true) {
       console.log('entra al true');
       return true;
@@ -53,7 +53,7 @@ const createTask = async (username, task) => {
       taskName: task,
       // TODO provisional, deberia poder seleccionarse de consola
       start_date: Date.now(),
-      end_date: Date.now(),
+      end_date: Date.now(), // ! End Date debe ser null a la hora de crear la tarea, se debe agregar el campo createdAt
     };
     foundUser.tasks.push(newTask);
     await foundUser.save();
@@ -66,6 +66,7 @@ const deleteTask = async (username, task) => {};
 const seeAllTasks = async (username, task) => {};
 const seeSpecificTask = async (username, task) => {};
 const updateTaskSelected = async (username, task) => {};
+const finishTaskSelected = async (username, task) => {};
 
 module.exports = {
 
@@ -76,5 +77,4 @@ module.exports = {
   seeAllTasks,
   seeSpecificTask,
   updateTaskSelected,
-
 };
