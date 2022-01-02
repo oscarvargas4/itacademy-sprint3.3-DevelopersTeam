@@ -1,6 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
 const { Model, DataTypes } = require('sequelize');
-const { sequelize } = require('./db-mysql');
+const { sequelize } = require('../database/db-mysql');
 
 class User extends Model {}
 User.init({

@@ -85,24 +85,29 @@ const deleteTask = async (username) => {
       items[i] = tasks[i].description;
     }
     // Hasta aca es readData
+    if(items.length > 0){
+      term.black.bgGreen("\nSelect a Task:\n");
+      const response = await term.singleColumnMenu(items).promise;
+  
+      term("\n").eraseLineAfter.red(
+        "#%s selected: %s \n",
+        response.selectedIndex + 1,
+        response.selectedText
+      );
+  
+      const newTasks = tasks.filter(
+        (task) => task.id != tasks[response.selectedIndex].id
+      );
+      data.users[userIndex].tasks = newTasks;
+  
+      data = JSON.stringify(data);
+      await writeFile("./src/database/database.JSON", data);
+      term.red("\nTask deleted successfully \n");
 
-    term.black.bgGreen("\nSelect a Task:\n");
-    const response = await term.singleColumnMenu(items).promise;
+    }else{
+      term.red("\nNo tasks to delete icon \n");
+    }
 
-    term("\n").eraseLineAfter.red(
-      "#%s selected: %s \n",
-      response.selectedIndex + 1,
-      response.selectedText
-    );
-
-    const newTasks = tasks.filter(
-      (task) => task.id != tasks[response.selectedIndex].id
-    );
-    data.users[userIndex].tasks = newTasks;
-
-    data = JSON.stringify(data);
-    await writeFile("./src/database/database.JSON", data);
-    term.red("\nTask deleted successfully \n");
   } catch (error) {
     console.log(error);
   }
@@ -115,7 +120,7 @@ const seeAllTasks = async (username) => {
 
     const { tasks } = data.users[userIndex];
     term.red(`${username} is Tasks: \n`);
-    for (let i = 0; i < tasks.length; i++) {
+    for (let i = 0; i < tasks[0].length; i++) {
       console.log(`Task #${i + 1}: ${tasks[i].description}`);
     }
   } catch (error) {
