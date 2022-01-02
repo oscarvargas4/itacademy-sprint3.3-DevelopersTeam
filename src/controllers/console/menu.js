@@ -37,7 +37,6 @@ const menu = async (username) => {
           break;
         case 3:
           await deleteTask(username);
-
           break;
         case 4:
           await seeAllTasks(username);
