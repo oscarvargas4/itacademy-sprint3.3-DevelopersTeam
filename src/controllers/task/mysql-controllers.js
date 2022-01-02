@@ -43,7 +43,52 @@ const createTask = async (username) => {
   }
 };
 
-const deleteTask = async (username) => {};
+const deleteTask = async (username) => {
+
+
+  try {
+    let items = [];
+    let id = [];
+
+    var task = await Task.findAll({
+      where: {
+        userId: idUser,
+      },
+    });
+
+    for (let i = 0; i < task.length; i++) {
+      items[i] = task[i].dataValues.taskName;
+      id[i] = task[i].dataValues.id;
+    }
+
+    if (items.length > 0) {
+      term.black.bgGreen("\nSelect a Task:\n");
+      const response = await term.singleColumnMenu(items).promise;
+
+      term("\n").eraseLineAfter.red(
+        "#%s selected: %s \n",
+        response.selectedIndex + 1,
+        response.selectedText
+      );
+
+      let destroy = await Task.destroy({
+        where: {
+          id: id[response.selectedIndex],
+        },
+      });
+
+      if (destroy) {
+        term.red(`\nTask deleted successfully \n`);
+      } else {
+        term.red(`\nTask not deleted \n`);
+      }
+    } else {
+      term.red("\nNo tasks to delete icon \n");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const seeAllTasks = async (username) => {
   try {

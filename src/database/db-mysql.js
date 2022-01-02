@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const mysql = require('mysql2/promise');
 const config = require('../../config');
+const term = require("terminal-kit").terminal;
 
 const {
   port, host, username, password,
@@ -14,7 +15,10 @@ const sequelize = new Sequelize(database, username, password, {
   port,
   define: {
     timestamps: false,
+    raw : true
   },
+  logging: false
+  
 
 });
 
@@ -31,6 +35,7 @@ const connectSequelize = async () => {
     console.log('Connection to mySQL-DB has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
+    process.exit();
   }
 };
 
