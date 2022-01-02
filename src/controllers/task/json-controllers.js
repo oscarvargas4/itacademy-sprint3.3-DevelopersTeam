@@ -120,7 +120,7 @@ const seeAllTasks = async (username) => {
 
     const { tasks } = data.users[userIndex];
     term.red(`${username} is Tasks: \n`);
-    for (let i = 0; i < tasks[0].length; i++) {
+    for (let i = 0; i < tasks.length; i++) {
       console.log(`Task #${i + 1}: ${tasks[i].description}`);
     }
   } catch (error) {
