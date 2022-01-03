@@ -5,11 +5,11 @@ const User = require('./mysql-user-model');
 
 class Task extends Model {}
 Task.init({
-  taskName: {
+  description: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+    allowNull: false
   },
+  status: { type: DataTypes.STRING, defaultValue:"started"},
   createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   finishAt: { type: DataTypes.DATE},

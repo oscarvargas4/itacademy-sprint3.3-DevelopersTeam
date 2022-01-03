@@ -28,6 +28,7 @@ const menu = async (username) => {
     );
     
     (async () => {
+      console.clear();
       switch (response.selectedIndex + 1) {
         case 1:
           await createTask(username);
