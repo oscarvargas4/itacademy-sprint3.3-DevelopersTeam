@@ -18,7 +18,6 @@ const sequelize = new Sequelize(database, username, password, {
     raw : true
   },
   logging: false // Quita el registro de ejecuciones SQL
-  
 
 });
 

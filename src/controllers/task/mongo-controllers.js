@@ -1,3 +1,4 @@
+const term = require('terminal-kit').terminal;
 const User = require('../../models/mongo-model');
 
 const createUser = async (username) => {
@@ -38,32 +39,82 @@ const userCheck = async (input) => { // ! Borrar console.log
 
 // TODO este metodo es el mismo para todas las DB
 
-const createTask = async (username, task) => {
-  console.log('username from create task:::', username);
-  // aca busca al usuario y solo tira error si no lo encuentra.
+const createTask = async (username) => {
+  term.black.bgGreen('Please enter Task description:\n');
   try {
+    const input = await term.inputField({}).promise;
     const foundUser = await User.findOne({
       username,
     });
     if (foundUser === null) throw new Error('User not found');
 
-    // aca crea la nueva tarea
-
     const newTask = {
-      taskName: task,
-      // TODO provisional, deberia poder seleccionarse de consola
-      start_date: Date.now(),
-      end_date: Date.now(), // ! End Date debe ser null a la hora de crear la tarea, se debe agregar el campo createdAt
+      taskName: input,
     };
+
     foundUser.tasks.push(newTask);
     await foundUser.save();
   } catch (e) {
     console.log(e);
   }
+  term.red('\nTask created\n');
 };
 
-const deleteTask = async (username, task) => {};
-const seeAllTasks = async (username, task) => {};
+const seeAllTasks = async (username) => {
+  try {
+    const foundUser = await User.findOne({
+      username,
+    });
+
+    const { tasks } = foundUser;
+    term.red(`${username} is Tasks: \n`);
+    for (let i = 0; i < tasks.length; i++) {
+      console.log(`Task #${i + 1}: ${tasks[i].taskName}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+// TODO borrar todos los consolge log que no coressponden
+
+// TODO el json tiene un error al borrar tareas cuando no queda ninguna
+// TODO agregar status al modelo de mongo
+
+const deleteTask = async (username) => {
+  try {
+    const foundUser = await User.findOne({
+      username,
+    });
+
+    const { tasks } = foundUser;
+
+    if (tasks.length === 0) {
+      term.red('\nNo tasks to delete \n');
+    } else {
+      const items = [];
+      for (let i = 0; i < tasks.length; i++) {
+        items[i] = tasks[i].taskName;
+      }
+      // Hasta aca es readData
+
+      term.black.bgGreen('\nSelect a Task:\n');
+      const response = await term.singleColumnMenu(items).promise;
+      term('\n').eraseLineAfter.red(
+        '#%s selected: %s \n',
+        response.selectedIndex + 1,
+        response.selectedText,
+      );
+
+      foundUser.tasks.splice(response.selectedIndex, 1);
+      console.log('selected index::', response.selectedIndex);
+      term.red('\nTask deleted successfully \n');
+      await foundUser.save();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const seeSpecificTask = async (username, task) => {};
 const updateTaskSelected = async (username, task) => {};
 const finishTaskSelected = async (username, task) => {};
