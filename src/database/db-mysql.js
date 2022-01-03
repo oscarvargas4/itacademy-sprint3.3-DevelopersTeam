@@ -17,7 +17,7 @@ const sequelize = new Sequelize(database, username, password, {
     timestamps: false,
     raw : true
   },
-  logging: false
+  logging: false // Quita el registro de ejecuciones SQL
   
 
 });
@@ -31,7 +31,7 @@ const connectSequelize = async () => {
     });
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
     // ************** */
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log('Connection to mySQL-DB has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
