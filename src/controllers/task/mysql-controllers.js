@@ -86,12 +86,12 @@ const deleteTask = async (username) => {
       });
 
       if (destroy) {
-        term.red(`\nTask deleted successfully \n`);
+        term.red(`\nTask deleted successfully\n`);
       } else {
-        term.red(`\nTask not deleted \n`);
+        term.red(`\nTask not deleted\n`);
       }
     } else {
-      term.red("\nNo tasks to delete icon \n");
+      term.red("\nNo tasks to delete icon\n");
     }
   } catch (error) {
     console.log(error);
@@ -149,16 +149,86 @@ const seeSpecificTask = async (username) => {
     console.log(error);
   }
 };
-const updateTask = async (username, id, update) => {};
 
-// Update task with menu selection
-const updateTaskSelected = async (username) => {};
+const updateTaskSelected = async (username) => {
+  try {
+    let items = [];
+    let id = [];
 
-// Finish Task
-const finishTask = async (username, id) => {};
+    var task = await getData();
+
+    if (task.length > 0) {
+      task.forEach((task, index) => {
+        items[index] = task.dataValues.description;
+        id[index] = task.dataValues.id;
+      });
+
+      term.black.bgGreen("\nSelect a Task:\n");
+      const response = await term.singleColumnMenu(items).promise;
+
+      term("\n").eraseLineAfter.red(
+        "#%s selected: %s \n",
+        response.selectedIndex + 1,
+        response.selectedText
+      );
+
+      term.black.bgGreen("Please enter Task description:\n");
+      const input = await term.inputField({}).promise;
+
+      if (input.length > 0) {
+        let taskForUpdate = await Task.findByPk(id[response.selectedIndex]);
+        await taskForUpdate.update({
+          description: input
+        });
+        term.red("\nTask updated\n");
+      } else {
+        term.red("\nTask not created - a description is needed\n");
+      }
+    } else {
+      term.red("\nNo tasks to update \n");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+};
 
 // Finish task with menu selection
-const finishTaskSelected = async (username) => {};
+const finishTaskSelected = async (username) => {
+  try {
+    let items = [];
+    let id = [];
+
+    var task = await getData();
+
+    if (task.length > 0) {
+      task.forEach((task, index) => {
+        items[index] = task.dataValues.description;
+        id[index] = task.dataValues.id;
+      });
+
+      term.black.bgGreen("\nSelect a Task:\n");
+      const response = await term.singleColumnMenu(items).promise;
+
+      term("\n").eraseLineAfter.red(
+        "#%s selected: %s \n",
+        response.selectedIndex + 1,
+        response.selectedText
+      );
+
+      let taskForUpdate = await Task.findByPk(id[response.selectedIndex]);
+      await taskForUpdate.update({
+        status: "finished"
+      });
+      term.red("\nTask finished\n");
+      
+    } else {
+      term.red("\nNo tasks to update \n");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   userCheck,

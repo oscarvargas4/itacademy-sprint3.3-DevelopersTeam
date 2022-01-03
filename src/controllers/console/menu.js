@@ -11,7 +11,8 @@ const {
 } = require(controllersByEnv);
 
 const menu = async (username) => {
-  term.green("Select one option from the menu: \n");
+  term.green('\nSelect one option from the menu: \n');
+
   const items = [
     "1. Create Task", // createTask()
     "2. Update Task", // updateTask()
