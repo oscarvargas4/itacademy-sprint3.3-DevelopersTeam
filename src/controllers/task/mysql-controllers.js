@@ -193,9 +193,6 @@ const updateTaskSelected = async (username) => {
 
 };
 
-// Finish Task
-const finishTask = async (username, id) => {};
-
 // Finish task with menu selection
 const finishTaskSelected = async (username) => {
   try {
