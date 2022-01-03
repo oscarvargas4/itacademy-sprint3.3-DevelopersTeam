@@ -18,8 +18,6 @@ const sequelize = new Sequelize(database, username, password, {
     raw : true
   },
   logging: false
-  
-
 });
 
 const connectSequelize = async () => {
