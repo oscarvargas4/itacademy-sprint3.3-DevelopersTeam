@@ -34,7 +34,7 @@ const menu = async (username) => {
     );
 
     (async () => {
-      console.clear();
+      // console.clear(); // ! Genera solapes con el menú de inicio
       switch (response.selectedIndex + 1) {
         case 1:
           await createTask(username);

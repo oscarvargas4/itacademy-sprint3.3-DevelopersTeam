@@ -1,4 +1,4 @@
-const { writeFile, readFile, unlink } = require('fs/promises');
+const { writeFile, readFile } = require('fs/promises');
 const { v4: uuidv4 } = require('uuid');
 const term = require('terminal-kit').terminal;
 
@@ -119,7 +119,7 @@ const seeAllTasks = async (username) => {
     const userIndex = getIndex(data, username);
 
     const { tasks } = data.users[userIndex];
-    term.red(`${username} is Tasks: \n`);
+    term.red(`${username} is Tasks:\n`);
     for (let i = 0; i < tasks.length; i++) {
       console.log(`Task #${i + 1}: ${tasks[i].description}`);
     }
@@ -166,27 +166,6 @@ const updateTask = async (username, id, update) => {
     });
     if (!task) throw new Error('Task not found');
 
-    // let updateTask = {};
-    // if (task.finishedAt) {
-    //   updateTask = {
-    //     id: task.id,
-    //     description: update,
-    //     status: task.status,
-    //     createdAt: task.createdAt,
-    //     startedAt: task.startedAt,
-    //     finishedAt: task.finishedAt,
-    //     updatedAt: new Date(),
-    //   };
-    // } else {
-    //   updateTask = {
-    //     id: task.id,
-    //     description: update,
-    //     status: task.status,
-    //     createdAt: task.createdAt,
-    //     updatedAt: new Date(),
-    //   };
-    // }
-
     data.users[userIndex].tasks[indexArray] = {
       id: task.id,
       description: update,
@@ -218,15 +197,72 @@ const updateTaskSelected = async (username) => {
     if (items.length === 0) {
       term.red('\n There are no tasks \n');
     } else {
+      term.black.bgGreen('\nSelect a Task for update:\n');
       var response = await term.singleColumnMenu(items).promise;
       term.black.bgGreen('Please enter new Task description:\n');
       var input = await term.inputField().promise;
 
       await updateTask(username, tasks[response.selectedIndex].id, input).then(
         () => {
-          term.red(`\nTask updated to: "${input}" \n`);
+          term.red(`\nTask updated to: "${input}"\n`);
         }
       );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Start Task
+const startTask = async (username, id) => {
+  try {
+    let indexArray = null;
+    let data = await getData();
+    const userIndex = getIndex(data, username);
+
+    const task = data.users[userIndex].tasks.find((task, index) => {
+      if (task.id === id) {
+        indexArray = index;
+        return task;
+      }
+    });
+    if (!task) throw new Error('Task not found');
+
+    data.users[userIndex].tasks[indexArray] = {
+      id: task.id,
+      description: task.description,
+      status: 'started',
+      createdAt: task.createdAt,
+      startedAt: new Date(),
+      finishedAt: task.finishedAt,
+      updatedAt: task.updatedAt,
+    };
+    data = JSON.stringify(data);
+    await writeFile('./src/database/database.JSON', data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Start task with menu selection
+const startTaskSelected = async (username) => {
+  try {
+    const data = await getData();
+    const userIndex = getIndex(data, username);
+
+    const tasks = data.users[userIndex].tasks;
+    const items = [];
+    for (let i = 0; i < tasks.length; i++) {
+      items[i] = tasks[i].description;
+    }
+
+    if (items.length === 0) {
+      term.red('\n There are no tasks \n');
+    } else {
+      term.black.bgGreen('Which Task would you like to start?:\n');
+      var response = await term.singleColumnMenu(items).promise;
+      await startTask(username, tasks[response.selectedIndex].id);
+      term.red(`\nTask finished successfully\n`);
     }
   } catch (error) {
     console.log(error);
@@ -248,16 +284,15 @@ const finishTask = async (username, id) => {
     });
     if (!task) throw new Error('Task not found');
 
-    let finishTask = {
+    data.users[userIndex].tasks[indexArray] = {
       id: task.id,
       description: task.description,
       status: 'finished',
       createdAt: task.createdAt,
-      updatedAt: task.updatedAt,
+      startedAt: task.startedAt,
       finishedAt: new Date(),
+      updatedAt: task.updatedAt,
     };
-
-    data.users[userIndex].tasks[indexArray] = finishTask;
     data = JSON.stringify(data);
     await writeFile('./src/database/database.JSON', data);
   } catch (error) {
@@ -297,5 +332,6 @@ module.exports = {
   seeAllTasks,
   seeSpecificTask,
   updateTaskSelected,
+  startTaskSelected,
   finishTaskSelected,
 };
