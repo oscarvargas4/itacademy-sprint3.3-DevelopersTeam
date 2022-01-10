@@ -6,8 +6,10 @@ const UserSchema = new Schema({
   username: { type: String, required: true },
   tasks: [{
     taskName: String,
-    start_date: { type: Date, default: Date.now, required: true },
-    end_date: { type: Date, required: true },
+    status: { type: String, default: 'pending' },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+    finishedAt: { type: Date, default: null },
   }],
 
 });

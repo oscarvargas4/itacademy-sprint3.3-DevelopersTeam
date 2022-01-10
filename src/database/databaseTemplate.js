@@ -1,20 +1,21 @@
 let dataTemplate = {
-    users: [
+  users: [
+    {
+      username: 'admin',
+      tasks: [
         {
-            username: "admin",
-            tasks: [
-                {
-                    description: "",
-                    status: "started",
-                    createdAt: new Date(),
-                    updateAt: new Date(),
-                    finishedAt: null
-                }
-            ]
-        }
-    ]
+          description: '',
+          status: 'pending',
+          createdAt: new Date(),
+          startedAt: null,
+          finishedAt: null,
+          updateAt: new Date(),
+        },
+      ],
+    },
+  ],
 };
 
-dataTemplate = JSON.stringify(dataTemplate)
+dataTemplate = JSON.stringify(dataTemplate);
 
-module.exports = dataTemplate
+module.exports = dataTemplate;

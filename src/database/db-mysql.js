@@ -2,9 +2,7 @@ const { Sequelize } = require('sequelize');
 const mysql = require('mysql2/promise');
 const config = require('../../config');
 
-const {
-  port, host, username, password,
-} = config.mysqlConfig;
+const { port, host, username, password } = config.mysqlConfig;
 
 const database = 'dev_teams_todo_app';
 
@@ -14,8 +12,9 @@ const sequelize = new Sequelize(database, username, password, {
   port,
   define: {
     timestamps: false,
+    raw: true,
   },
-
+  logging: false, // Quita el registro de ejecuciones SQL
 });
 
 const connectSequelize = async () => {
@@ -23,7 +22,10 @@ const connectSequelize = async () => {
     // Create database if it does not exist/
 
     const connection = await mysql.createConnection({
-      host, port, user: username, password,
+      host,
+      port,
+      user: username,
+      password,
     });
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
     // ************** */
@@ -31,6 +33,7 @@ const connectSequelize = async () => {
     console.log('Connection to mySQL-DB has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
+    process.exit();
   }
 };
 
