@@ -1,9 +1,9 @@
 const term = require('terminal-kit').terminal;
 const { v4: uuidv4 } = require('uuid');
-const { userCheckByEnv } = require('../../../config');
+const { controllersByEnv } = require('../../../config');
 
 // eslint-disable-next-line import/no-dynamic-require
-const { userCheck } = require(userCheckByEnv);
+const { userCheck } = require(controllersByEnv);
 const { menu } = require('./menu');
 
 const userIdentify = async () => {
