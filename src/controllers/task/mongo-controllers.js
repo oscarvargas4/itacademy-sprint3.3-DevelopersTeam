@@ -1,43 +1,37 @@
 const term = require('terminal-kit').terminal;
 const User = require('../../models/mongo-model');
 
+// TODO no permitir crear tareas sin nombre
+// TODO el json tiene un error al borrar tareas cuando no queda ninguna
+
 const createUser = async (username) => {
   const usernameLC = username.toLowerCase();
   try {
-    console.log('entra al create user con username como:', username);
     const newUser = new User({
       username:
       usernameLC,
     });
 
-    console.log('newUser created:::', newUser);
     await newUser.save();
   } catch (err) { console.log(err); }
 };
 
-const userCheck = async (input) => { // ! Borrar console.log
-  console.log('entra a userCheck');
+const userCheck = async (input) => {
   const inputLC = input.toLowerCase();
   try {
-    console.log('input: ', input);
     const foundUser = await User.findOne({
       username: inputLC,
     });
-    console.log('found user:,', foundUser);
     if (foundUser === true) {
-      console.log('entra al true');
       return true;
     }
     if (foundUser === null) {
-      console.log('entra al false');
       await createUser(inputLC);
     }
   } catch (error) {
     console.log(error);
   }
 };
-
-// TODO este metodo es el mismo para todas las DB
 
 const createTask = async (username) => {
   term.black.bgGreen('Please enter Task description:\n');
@@ -67,18 +61,18 @@ const seeAllTasks = async (username) => {
     });
 
     const { tasks } = foundUser;
-    term.red(`${username} is Tasks: \n`);
-    for (let i = 0; i < tasks.length; i++) {
-      console.log(`Task #${i + 1}: ${tasks[i].taskName}`);
+    if (tasks.length === 0) {
+      term.red('\n There are no tasks \n');
+    } else {
+      term.red(`${username} is Tasks: \n`);
+      for (let i = 0; i < tasks.length; i++) {
+        console.log(`Task #${i + 1}: ${tasks[i].taskName}`);
+      }
     }
   } catch (error) {
     console.log(error);
   }
 };
-// TODO borrar todos los consolge log que no coressponden
-
-// TODO el json tiene un error al borrar tareas cuando no queda ninguna
-// TODO agregar status al modelo de mongo
 
 const deleteTask = async (username) => {
   try {
@@ -106,7 +100,6 @@ const deleteTask = async (username) => {
       );
 
       foundUser.tasks.splice(response.selectedIndex, 1);
-      console.log('selected index::', response.selectedIndex);
       term.red('\nTask deleted successfully \n');
       await foundUser.save();
     }
@@ -115,9 +108,129 @@ const deleteTask = async (username) => {
   }
 };
 
-const seeSpecificTask = async (username, task) => {};
-const updateTaskSelected = async (username, task) => {};
-const finishTaskSelected = async (username, task) => {};
+const seeSpecificTask = async (username) => {
+  try {
+    const foundUser = await User.findOne({
+      username,
+    });
+
+    const { tasks } = foundUser;
+
+    const items = [];
+    for (let i = 0; i < tasks.length; i++) {
+      items[i] = tasks[i].taskName;
+    }
+
+    term.black.bgGreen('\nSelect a Task:\n');
+    const response = await term.singleColumnMenu(items).promise;
+    term.bold(`\nID: ${tasks[response.selectedIndex].id} \n`);
+    term.bold(`Description : ${tasks[response.selectedIndex].taskName} \n`);
+    term.bold(`Status : ${tasks[response.selectedIndex].status} \n`);
+    term.bold(`Created : ${tasks[response.selectedIndex].createdAt} \n`);
+    term.bold(`Updated : ${tasks[response.selectedIndex].updatedAt} \n`);
+    if (tasks[response.selectedIndex].finishedAt) {
+      term.bold(`Finished : ${tasks[response.selectedIndex].finishedAt} \n`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const finishTaskSelected = async (username) => {
+  try {
+    const foundUser = await User.findOne({
+      username,
+    });
+
+    const { tasks } = foundUser;
+
+    if (tasks.length === 0) {
+      term.red('\n There are no tasks \n');
+    } else {
+      const items = [];
+      for (let i = 0; i < tasks.length; i++) {
+        items[i] = tasks[i].taskName;
+      }
+
+      term.black.bgGreen('\nWhich Task would you like to finish?:\n');
+      const response = await term.singleColumnMenu(items).promise;
+      term('\n').eraseLineAfter.red(
+        '#%s selected: %s \n',
+        response.selectedIndex + 1,
+        response.selectedText,
+      );
+
+      foundUser.tasks[response.selectedIndex].status = 'finished';
+      foundUser.tasks[response.selectedIndex].finishedAt = Date.now();
+      term.red('\nTask finished successfully\n');
+      await foundUser.save();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateTaskSelected = async (username) => {
+  try {
+    const foundUser = await User.findOne({
+      username,
+    });
+
+    const { tasks } = foundUser;
+    if (tasks.length === 0) {
+      term.red('\n There are no tasks \n');
+    } else {
+      const items = [];
+      for (let i = 0; i < tasks.length; i++) {
+        items[i] = tasks[i].taskName;
+      }
+
+      const response = await term.singleColumnMenu(items).promise;
+      term.black.bgGreen('Please enter new Task description:\n');
+      const input = await term.inputField().promise;
+
+      foundUser.tasks[response.selectedIndex].taskName = input;
+      term.red(`\nTask updated to: "${input}" \n`);
+      await foundUser.save();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const startTaskSelected = async (username) => {
+  try {
+    const foundUser = await User.findOne({
+      username,
+    });
+
+    const { tasks } = foundUser;
+
+    if (tasks.length === 0) {
+      term.red('\n There are no tasks \n');
+    } else {
+      const items = [];
+      for (let i = 0; i < tasks.length; i++) {
+        items[i] = tasks[i].taskName;
+      }
+
+      term.black.bgGreen('\nWhich Task would you like to finish?:\n');
+      const response = await term.singleColumnMenu(items).promise;
+      term('\n').eraseLineAfter.red(
+        '#%s selected: %s \n',
+        response.selectedIndex + 1,
+        response.selectedText,
+      );
+
+      foundUser.tasks[response.selectedIndex].status = 'started';
+      foundUser.tasks[response.selectedIndex].updatedAt = Date.now();
+      term.red('\nTask finished successfully\n');
+      await foundUser.save();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
 
@@ -127,5 +240,7 @@ module.exports = {
   deleteTask,
   seeAllTasks,
   seeSpecificTask,
+  finishTaskSelected,
   updateTaskSelected,
+  startTaskSelected,
 };
