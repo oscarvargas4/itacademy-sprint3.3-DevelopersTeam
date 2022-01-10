@@ -262,7 +262,7 @@ const startTaskSelected = async (username) => {
       term.black.bgGreen('Which Task would you like to start?:\n');
       var response = await term.singleColumnMenu(items).promise;
       await startTask(username, tasks[response.selectedIndex].id);
-      term.red(`\nTask finished successfully\n`);
+      term.red(`\nTask started successfully\n`);
     }
   } catch (error) {
     console.log(error);
