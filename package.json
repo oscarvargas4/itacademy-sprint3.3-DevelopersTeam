@@ -1,0 +1,30 @@
+{
+  "name": "sprint3.3-developersTeam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "json": "cross-env NODE_ENV=json node src/app.js",
+    "mongo": "cross-env NODE_ENV=mongo node src/app.js",
+    "mysql": "cross-env NODE_ENV=mysql node src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "mongoose": "^6.1.2",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.12.1",
+    "terminal-kit": "^2.3.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
+  }
+}
+
