@@ -8,12 +8,13 @@ const createUser = async (username) => {
   const usernameLC = username.toLowerCase();
   try {
     const newUser = new User({
-      username:
-      usernameLC,
+      username: usernameLC,
     });
 
     await newUser.save();
-  } catch (err) { console.log(err); }
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const userCheck = async (input) => {
@@ -96,7 +97,7 @@ const deleteTask = async (username) => {
       term('\n').eraseLineAfter.red(
         '#%s selected: %s \n',
         response.selectedIndex + 1,
-        response.selectedText,
+        response.selectedText
       );
 
       foundUser.tasks.splice(response.selectedIndex, 1);
@@ -157,7 +158,7 @@ const finishTaskSelected = async (username) => {
       term('\n').eraseLineAfter.red(
         '#%s selected: %s \n',
         response.selectedIndex + 1,
-        response.selectedText,
+        response.selectedText
       );
 
       foundUser.tasks[response.selectedIndex].status = 'finished';
@@ -219,12 +220,12 @@ const startTaskSelected = async (username) => {
       term('\n').eraseLineAfter.red(
         '#%s selected: %s \n',
         response.selectedIndex + 1,
-        response.selectedText,
+        response.selectedText
       );
 
       foundUser.tasks[response.selectedIndex].status = 'started';
       foundUser.tasks[response.selectedIndex].updatedAt = Date.now();
-      term.red('\nTask finished successfully\n');
+      term.red('\nTask started successfully\n');
       await foundUser.save();
     }
   } catch (error) {
@@ -233,7 +234,6 @@ const startTaskSelected = async (username) => {
 };
 
 module.exports = {
-
   createUser,
   userCheck,
   createTask,
