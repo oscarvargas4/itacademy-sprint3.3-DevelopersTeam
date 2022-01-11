@@ -19,11 +19,11 @@ The project uses a number of open source projects to function properly:
 
 - [Nodejs](https://nodejs.org/en/) - adventurous I/O for the backend.
 - [Express](https://expressjs.com/es/) - fast node.js network application framework [@tjholowaychuk].
-- MongoDB](https://www.mongodb.com/es) - Database
-- Mongose](https://mongoosejs.com/) - MongoDB ORM
-- MYSQL](https://www.mysql.com/) - Database 
-- Sequelize](https://sequelize.org/) - Mysql ORM
-- Terminal-kit](https://www.npmjs.com/package/terminal-kit) - Terminal Browser
+- [MongoDB](https://www.mongodb.com/es) - Database
+- [Mongose](https://mongoosejs.com/) - MongoDB ORM
+- [MYSQL](https://www.mysql.com/) - Database 
+- [Sequelize](https://sequelize.org/) - Mysql ORM
+- [Terminal-kit](https://www.npmjs.com/package/terminal-kit) - Terminal Browser
 
 ## Installation
 
