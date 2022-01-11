@@ -29,9 +29,7 @@ The project uses a number of open source projects to function properly:
 
 The project requires [Node.js](https://nodejs.org/), mongodb and mysql to work.
 
-Install the dependencies and devDependencies and fix the server.
-Create an .env file in the root directory with the following code and fill in the configuration fields
-
+Clone the repository on a computer, go to the project folder and run the installation of all packages.
 
 ```sh
 clone https://github.com/oscarvargas4/itacademy-sprint3.3-DevelopersTeam
@@ -80,7 +78,3 @@ npm run mysql
 
 MIT
 
-
-
-
-Translated with www.DeepL.com/Translator (free version)
