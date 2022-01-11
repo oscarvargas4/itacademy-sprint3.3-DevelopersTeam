@@ -17,8 +17,8 @@ Created by Oscar, Mariano, Alejandro
 
 The project uses a number of open source projects to function properly:
 
-- [Nodejs](https://nodejs.org/en/) - adventurous I/O for the backend.
-- [Express](https://expressjs.com/es/) - fast node.js network application framework [@tjholowaychuk].
+- [Nodejs](https://nodejs.org/en/) - Backend Javascript
+- [Express](https://expressjs.com/es/) - fast node.js network application framework.
 - [MongoDB](https://www.mongodb.com/es) - Database
 - [Mongose](https://mongoosejs.com/) - MongoDB ORM
 - [MYSQL](https://www.mysql.com/) - Database 
