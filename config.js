@@ -15,11 +15,20 @@ let controllersByEnv;
 let userCheckByEnv;
 
 if (process.env.NODE_ENV === 'mongo') {
-  [dbByEnv, controllersByEnv] = ['./database/db-mongo', '../task/mongo-controllers'];
+  [dbByEnv, controllersByEnv] = [
+    './database/db-mongo',
+    '../task/mongo-controllers',
+  ];
 } else if (process.env.NODE_ENV === 'mysql') {
-  [dbByEnv, controllersByEnv] = ['./database/db-mysql', '../task/mysql-controllers'];
+  [dbByEnv, controllersByEnv] = [
+    './database/db-mysql',
+    '../task/mysql-controllers',
+  ];
 } else if (process.env.NODE_ENV === 'json') {
-  [dbByEnv, controllersByEnv] = ['./database/db-json', '../task/json-controllers'];
+  [dbByEnv, controllersByEnv] = [
+    './database/db-json',
+    '../task/json-controllers',
+  ];
 }
 
 module.exports = {
@@ -30,3 +39,5 @@ module.exports = {
   controllersByEnv,
   userCheckByEnv,
 };
+
+// Del
